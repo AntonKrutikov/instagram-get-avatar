@@ -9,6 +9,6 @@ btn.addEventListener('click', async e => {
   let j = await result.json()
   console.log(j)
   username.value = null
-  img.src = `data:image/png;base64,${j.url}`
+  img.src = j.url
   cache_info.innerText = j.from_cache
 })
