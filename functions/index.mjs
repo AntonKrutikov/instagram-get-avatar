@@ -6,7 +6,7 @@ import fetch from 'node-fetch'
 // Using some account as 'viewer' because without login Instagram sometimes not response data
 const username = '' // viewer account login
 const password = '' // viewer account pass
-const bucketId = 'gs://avatars-663d5.appspot.com/' // firebase bucket id
+const bucketId = '' // firebase bucket id
 const bucketPath = 'avatars' // firebase bucket folder
 const collectionName = 'instagram' // firestore collection for instagram api metainfo and session
 
@@ -168,26 +168,35 @@ async function storeProfilePic(user) {
 
   // get url
   let url = await getProfilePicUrl(user)
-  // load image
-  let response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      referer: 'https://www.instagram.com/'
-    }
-  })
-  let data = await response.arrayBuffer()
-  const buffer = Buffer.from(data)
+  if (url) {
+    // load image
+    try {
+      let response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          referer: 'https://www.instagram.com/'
+        }
+      })
+      let data = await response.arrayBuffer()
+      const buffer = Buffer.from(data)
 
-  // store img file in bucket
-  await file.save(buffer, {
-    metadata: {
-      contentType: "image/png",
-      origin: ["*"],
-      instagram_pic_url: url
+      // store img file in bucket
+      await file.save(buffer, {
+        metadata: {
+          contentType: "image/png",
+          origin: ["*"],
+          instagram_pic_url: url
+        }
+      })
+      await file.makePublic()
+      return file.publicUrl()
+    } catch (e) {
+      console.log(e)
+      return null
     }
-  })
-  await file.makePublic()
-  return file.publicUrl()
+  } else {
+    return null
+  }
 }
 
 // Redirect version example.
