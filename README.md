@@ -1,9 +1,22 @@
 Example of getting instagram profile picture by username.
 
-# Firebase version
+# Firebase Function version (branch firebase-func)
 
-1. Put `firebase_auth.json` file with credentials from Firebase -> Project Setting -> Service Accounts
-2. Modify `bucketId` and `bucketPath` in top of app.mjs to your bucket name and folder inside.
+`function/index.mjs`
+
+Overwrite this vars in top of function file:
+
+```js
+const username = '' // viewer account login
+const password = '' // viewer account pass
+const bucketId = '' // firebase bucket id
+const bucketPath = 'avatars' // firebase bucket folder
+const collectionName = 'instagram' // firestore collection for instagram api metainfo and session
+```
+
+# Firebase version without fucntion (branch firebase)
+
+Provide `fireabase_auth.json` from your service account
 
 ## Cors
 
@@ -11,7 +24,7 @@ To access files directly from firebase storage in client side, you may need to s
 
 https://firebase.google.com/docs/storage/web/download-files#cors_configuration
 
-__Example with firebase support in `firebase` branch.__
+# Example of standalone version from main branch:
 
 1. Get profile info with public api `?__a=1`
 2. Get profile_pic_hd url

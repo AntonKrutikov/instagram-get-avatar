@@ -1,2 +1,7 @@
 node_modules
 firebase_auth.json
+storage.rules
+firestore-debug.log
+firebase.json
+firebase-debug.log
+.firebaserc
